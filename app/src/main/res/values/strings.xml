@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Учим слова</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="enter_DB">Записать в БД</string>
+    <string name="check_words">Учим</string>
+    <string name="add_word">Добавить</string>
+    <string name="del_word">Удалить</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+    <string name="English">Немецкий</string>
+    <string name="Russian">Русский</string>
+    <string name="update_word">Записать</string>
+    <string name="right">Верно!</string>
+    <string name="wrong">Ошибка</string>
+    <string name="add">добавьте</string>
+    <string name="more">больше</string>
+    <string name="words">слов</string>
+    <string name="alert_title">Сообщение</string>
+    <string name="alert_message">Недостаточно слов в базе данных. Хотите добавить?</string>
+    <string name="alert_no">Нет</string>
+    <string name="alert_yes">Да</string>
+    <string name="translate">Перевести</string>
+    <string name="translate_on_english">Перевод на немецкий</string>
+    <string name="translate_on_russian">Перевод на русский</string>
+    <string name="statistic">Стат.</string>
+    <string name="help">справка</string>
+    <string name="helpText">
+
+      1.Для перевода требуется подключение к сети интернет.
+      \n2.Пользователь сам формирует список необходимых слов.
+      \n3.Приложение позволяет добавлять, удалять и редактировать слова.
+    </string>
+    <string name="dummy">dummy</string>
+
+    <string-array name="standart_words">
+        <item>das Feuer=огонь</item>
+        <item>die liebe=любовь</item>
+        <item>der Montag=понедельник</item>
+        <item>der Dienstag=вторник</item>
+        <item>der Mittwoch=среда</item>
+        <item>der Donnerstag=четверг</item>
+        <item>der Freitag=пятница</item>
+        <item>der Samstag=суббота</item>
+        <item>der Sonntag=воскресенье</item>
+        <item>der Wasser=вода</item>
+        <item>der Welt=мир</item>
+        <item>die Luft=воздух</item>
+        <item>sehen=смотреть</item>
+        <item>denken=думать</item>
+        <item>gehen=идти</item>
+        <item>unabhängig=самостоятельно</item>
+    </string-array>
+
+</resources>
