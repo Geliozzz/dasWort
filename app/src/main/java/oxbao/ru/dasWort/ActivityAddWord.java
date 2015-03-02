@@ -13,8 +13,8 @@ import android.widget.Toast;
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
 
-public class AddWordActivity extends ActionBarActivity {
-    private SqliteWordHelper db = new SqliteWordHelper(this);
+public class ActivityAddWord extends ActionBarActivity
+{
     private Handler handler;
     private static final int ON_ENG = 1;
     private static final int ON_RUS = 2;
@@ -25,16 +25,28 @@ public class AddWordActivity extends ActionBarActivity {
     private Button btn_trans_eng;
     private Button btn_trans_rus;
 
+    private Word m_WordRecieve;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_word_layout);
         initGUI();
+        m_WordRecieve = (Word) getIntent().getParcelableExtra(Word.class.getCanonicalName()); // Recive object
+        if (m_WordRecieve == null)
+        {
 
+        } else
+        {
+            edtEng.setText(m_WordRecieve.getEng());
+            edtRus.setText(m_WordRecieve.getRus());
+        }
     }
 
-    private void initGUI(){
+    private void initGUI()
+    {
         edtEng = (EditText) findViewById(R.id.edtEng);
         edtRus = (EditText) findViewById(R.id.edtRus);
         btn_add_DB = (Button) findViewById(R.id.btn_write);
@@ -43,79 +55,109 @@ public class AddWordActivity extends ActionBarActivity {
         pb_wait = (ProgressBar) findViewById(R.id.procB_wait_add);
 
 
-        handler = new Handler() {
+        handler = new Handler()
+        {
             @Override
-            public void handleMessage(Message msg) {
+            public void handleMessage(Message msg)
+            {
                 String resp = msg.getData().getString("message");
                 int type = msg.getData().getInt("type");
-                if (type == ON_ENG) {
+                if (type == ON_ENG)
+                {
                     edtEng.setText(resp);
                 }
-                if (type == ON_RUS) {
+                if (type == ON_RUS)
+                {
                     edtRus.setText(resp);
                 }
                 pb_wait.setVisibility(View.INVISIBLE);
             }
         };
 
-        btn_add_DB.setOnClickListener(new View.OnClickListener() {
+        btn_add_DB.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 String eng = edtEng.getText().toString();
                 String rus = edtRus.getText().toString();
-                Word addWord = new Word(eng, rus);
-                db.addWord(addWord);
-                db.close();
-                Toast toast = Toast.makeText(getApplication(), addWord.toString(), Toast.LENGTH_SHORT);
+                Word tmpWord;
+                if (m_WordRecieve == null)
+                {
+                    Word addWord = new Word(eng, rus);
+                    ActivityMain.g_executor.addWordToDataBase(addWord);
+                    tmpWord = addWord;
+                } else
+                {
+                    m_WordRecieve.setEng(eng);
+                    m_WordRecieve.setRus(rus);
+                    ActivityMain.g_executor.updateWordInDataBase(m_WordRecieve);
+                    tmpWord = m_WordRecieve;
+                }
+                Toast toast = Toast.makeText(getApplication(), tmpWord.toString(), Toast.LENGTH_SHORT);
                 toast.show();
                 finish();
-
             }
         });
-        btn_trans_eng.setOnClickListener(new View.OnClickListener() {
+        btn_trans_eng.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 translate(ON_ENG, edtRus.getText().toString());
             }
         });
 
-        btn_trans_rus.setOnClickListener(new View.OnClickListener() {
+        btn_trans_rus.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 translate(ON_RUS, edtEng.getText().toString());
             }
         });
     }
 
-    private void translate(final int type, String translate) {
+    private void translate(final int type, String translate)
+    {
 
         final String finalTranslate = translate;
-        if (finalTranslate.equals("") || finalTranslate.equals(null)){
+        if (finalTranslate.equals("") || finalTranslate.equals(null))
+        {
             return;
         }
-        Thread t = new Thread(new Runnable() {
+        Thread t = new Thread(new Runnable()
+        {
             @Override
-            public void run() {
-                Translate.setClientId(MainActivity.getClientId());
-                Translate.setClientSecret(MainActivity.getClientSecret());
-                try {
+            public void run()
+            {
+                Translate.setClientId(ActivityMain.getClientId());
+                Translate.setClientSecret(ActivityMain.getClientSecret());
+                try
+                {
                     String transtatedText = "*";
-                    if (type == ON_RUS) {
+                    if (type == ON_RUS)
+                    {
                         transtatedText = Translate.execute(finalTranslate, Language.GERMAN, Language.RUSSIAN);
                     }
-                    if (type == ON_ENG) {
+                    if (type == ON_ENG)
+                    {
                         transtatedText = Translate.execute(finalTranslate, Language.RUSSIAN, Language.GERMAN);
                     }
                     threadMsg(transtatedText, type);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException e)
+                {
                     e.printStackTrace();
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                 }
             }
 
-            private void threadMsg(String msg, int type) {
-                if (!msg.equals(null) && !msg.equals("")) {
+            private void threadMsg(String msg, int type)
+            {
+                if (!msg.equals(null) && !msg.equals(""))
+                {
                     Message msgObj = handler.obtainMessage();
                     Bundle b = new Bundle();
                     b.putString("message", msg);

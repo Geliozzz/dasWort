@@ -8,7 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends ActionBarActivity {
+public class ActivityMain extends ActionBarActivity {
+
+    public static Executor g_executor = Executor.getInstance();
 
     private static final String CLIENT_ID = "dasWortTranslate";
     private static final String CLIENT_SECRET = "oA7/CYhAjAqXh2NWkjEuJGPvGrTFD6oEnkq4+kqK7sY=";
@@ -24,6 +26,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard_layout);
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        g_executor.createDB(getBaseContext());
+        //*******************************************
 
         getSupportActionBar();
 
@@ -35,7 +40,7 @@ public class MainActivity extends ActionBarActivity {
         btn_addWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), AddWordActivity.class);
+                Intent i = new Intent(getApplicationContext(), ActivityAddWord.class);
                 startActivity(i);
             }
         });
@@ -43,7 +48,7 @@ public class MainActivity extends ActionBarActivity {
         btn_edit_DB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), EditDBActivity.class);
+                Intent i = new Intent(getApplicationContext(), ActivityEditDB.class);
                 startActivity(i);
             }
         });
@@ -51,14 +56,14 @@ public class MainActivity extends ActionBarActivity {
         btn_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), DeleteDBActivity.class);
+                Intent i = new Intent(getApplicationContext(), ActivityDeleteDB.class);
                 startActivity(i);
             }
         });
         btn_learn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), LearnActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ActivityLearn.class);
                 startActivity(intent);
             }
         });

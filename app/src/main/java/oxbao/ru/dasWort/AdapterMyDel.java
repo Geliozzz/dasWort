@@ -13,14 +13,14 @@ import java.util.HashSet;
 import java.util.List;
 
 
-public class MyDelAdapter extends ArrayAdapter<Word> {
+public class AdapterMyDel extends ArrayAdapter<Word> {
     private Context context;
     private List<Word> values;
     private HashSet<Word> wordHashSet = new HashSet<Word>();
     int lay_res = R.layout.del_adapter;
 
 
-    public MyDelAdapter(Context context, List<Word> objects) {
+    public AdapterMyDel(Context context, List<Word> objects) {
         super(context, R.layout.del_adapter, objects);
         Collections.sort(objects);
         this.context = context;

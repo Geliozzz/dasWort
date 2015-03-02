@@ -11,11 +11,11 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
-public class EditArrayAdapter extends ArrayAdapter<Word> {
+public class AdapterEditArray extends ArrayAdapter<Word> {
     private Context context;
     private List<Word> values;
 
-    public EditArrayAdapter(Context context, List<Word> objects) {
+    public AdapterEditArray(Context context, List<Word> objects) {
         super(context, R.layout.edit_adapter, objects);
         this.context = context;
         Collections.sort(objects);

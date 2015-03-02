@@ -9,9 +9,7 @@ import android.widget.ListView;
 import java.util.HashSet;
 import java.util.List;
 
-public class DeleteDBActivity extends ActionBarActivity {
-    private   SqliteWordHelper db = new SqliteWordHelper(this);
-
+public class ActivityDeleteDB extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,9 +18,8 @@ public class DeleteDBActivity extends ActionBarActivity {
         ListView lvDel = (ListView) findViewById(R.id.lv_delete);
         Button btn_delete = (Button)findViewById(R.id.btn_deleteWords);
 
-        List<Word> list = db.getAllWords();
-
-       final MyDelAdapter adapter = new MyDelAdapter(getApplicationContext(), list);
+       List<Word> list = ActivityMain.g_executor.getAllWordsFromDatabase();
+       final AdapterMyDel adapter = new AdapterMyDel(getApplicationContext(), list);
        lvDel.setAdapter(adapter);
 
         btn_delete.setOnClickListener(new View.OnClickListener() {
@@ -31,14 +28,11 @@ public class DeleteDBActivity extends ActionBarActivity {
                 HashSet<Word> set = adapter.getWordHashSet();
                 if (set != null){
                     for(Word word : set){
-                        db.deleteWord(word);
+                        ActivityMain.g_executor.deleteWordFromDataBase(word);
                     }
                 }
-                db.close();
-                DeleteDBActivity.this.finish();
+                ActivityDeleteDB.this.finish();
             }
         });
-
-
     }
 }

@@ -10,8 +10,7 @@ import android.widget.ListView;
 import java.util.List;
 
 
-public class EditDBActivity extends ActionBarActivity {
-    private   SqliteWordHelper db = new SqliteWordHelper(this);
+public class ActivityEditDB extends ActionBarActivity {
     private ListView lvEdit;
     final String LOG_TAG = "myLogs";
     @Override
@@ -21,14 +20,13 @@ public class EditDBActivity extends ActionBarActivity {
 
         lvEdit = (ListView) findViewById(R.id.lv_edit);
 
-        List<Word> list = db.getAllWords();
-        db.close();
-        final EditArrayAdapter adapter = new EditArrayAdapter(getApplicationContext(), list);
+        List<Word> list = ActivityMain.g_executor.getAllWordsFromDatabase();
+        final AdapterEditArray adapter = new AdapterEditArray(getApplicationContext(), list);
         lvEdit.setAdapter(adapter);
         lvEdit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getApplicationContext(), UpdateWordActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ActivityAddWord.class);
                 intent.putExtra(Word.class.getCanonicalName(), adapter.getItem(i));
                 startActivity(intent);
             }
@@ -38,11 +36,10 @@ public class EditDBActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        List<Word> list = db.getAllWords();
+        List<Word> list = ActivityMain.g_executor.getAllWordsFromDatabase();
 
-        final EditArrayAdapter adapter = new EditArrayAdapter(getApplicationContext(), list);
+        final AdapterEditArray adapter = new AdapterEditArray(getApplicationContext(), list);
         lvEdit.setAdapter(adapter);
-        db.close();
 
     }
 }

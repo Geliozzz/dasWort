@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class LearnActivity extends ActionBarActivity {
-    private SqliteWordHelper db = new SqliteWordHelper(this);
+public class ActivityLearn extends ActionBarActivity {
     private ArrayList<Word> wordArrayList;
     private TextView txtQuesWord;
     private Button btnVersion1;
@@ -38,11 +37,11 @@ public class LearnActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        wordArrayList = new ArrayList<Word>(db.getAllWords());
+        wordArrayList = new ArrayList<Word>(ActivityMain.g_executor.getAllWordsFromDatabase());
         setContentView(R.layout.learn_layout);
         if (wordArrayList.size() < 4) {
 
-            AlertDialog.Builder ad = new AlertDialog.Builder(LearnActivity.this)
+            AlertDialog.Builder ad = new AlertDialog.Builder(ActivityLearn.this)
                     .setTitle(getResources().getString(R.string.alert_title))
                     .setMessage(getResources().getString(R.string.alert_message))
                     .setCancelable(false)
@@ -62,14 +61,8 @@ public class LearnActivity extends ActionBarActivity {
                                 public void onClick(DialogInterface dialog, int ii) {
                                     //finish();
                                     //Заполняем базу данных стандартным набором слов если пользователь согласен
-                                    String[] arr = getResources().getStringArray(R.array.standart_words);
-                                    for (int i = 0; i < arr.length; i++) {
-                                        String[] arr_split = arr[i].split("=");
-                                        db.addWord(new Word(arr_split[0], arr_split[1]));
-
-                                    }
-                                    db.close();
-                                    wordArrayList = new ArrayList<Word>(db.getAllWords());
+                                    ActivityMain.g_executor.createStandardDataBase();
+                                    wordArrayList = new ArrayList<Word>(ActivityMain.g_executor.getAllWordsFromDatabase());
                                     dialog.cancel();
                                     initGUI();
                                     initQuestion(wordArrayList);
