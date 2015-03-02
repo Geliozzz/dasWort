@@ -12,16 +12,7 @@ public class ActivityMain extends ActionBarActivity {
 
     public static Executor g_executor = Executor.getInstance();
 
-    private static final String CLIENT_ID = "dasWortTranslate";
-    private static final String CLIENT_SECRET = "oA7/CYhAjAqXh2NWkjEuJGPvGrTFD6oEnkq4+kqK7sY=";
 
-    public static String getClientId() {
-        return CLIENT_ID;
-    }
-
-    public static String getClientSecret() {
-        return CLIENT_SECRET;
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

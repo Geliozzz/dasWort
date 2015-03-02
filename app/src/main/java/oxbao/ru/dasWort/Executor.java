@@ -1,6 +1,7 @@
 package oxbao.ru.dasWort;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import java.util.List;
@@ -59,6 +60,12 @@ public class Executor
             String[] arr_split = arr[i].split("=");
             addWordToDataBase(new Word(arr_split[0], arr_split[1]));
         }
+    }
+
+    public void translate(LanguageEnum type, String translate, Handler handler)
+    {
+        Translator translator = new Translator(handler);
+        translator.translate(type, translate);
     }
 
 

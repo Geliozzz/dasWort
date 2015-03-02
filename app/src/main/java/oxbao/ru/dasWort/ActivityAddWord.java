@@ -10,14 +10,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.memetix.mst.language.Language;
-import com.memetix.mst.translate.Translate;
-
 public class ActivityAddWord extends ActionBarActivity
 {
     private Handler handler;
-    private static final int ON_ENG = 1;
-    private static final int ON_RUS = 2;
+
     private EditText edtEng;
     private EditText edtRus;
     private ProgressBar pb_wait;
@@ -61,12 +57,12 @@ public class ActivityAddWord extends ActionBarActivity
             public void handleMessage(Message msg)
             {
                 String resp = msg.getData().getString("message");
-                int type = msg.getData().getInt("type");
-                if (type == ON_ENG)
+                String type = msg.getData().getString("type");
+                if (type.equals(LanguageEnum.ON_ENG.toString()))
                 {
                     edtEng.setText(resp);
                 }
-                if (type == ON_RUS)
+                if (type.equals(LanguageEnum.ON_RUS.toString()))
                 {
                     edtRus.setText(resp);
                 }
@@ -104,7 +100,7 @@ public class ActivityAddWord extends ActionBarActivity
             @Override
             public void onClick(View view)
             {
-                translate(ON_ENG, edtRus.getText().toString());
+                ActivityMain.g_executor.translate(LanguageEnum.ON_ENG, edtRus.getText().toString());
             }
         });
 
@@ -113,62 +109,10 @@ public class ActivityAddWord extends ActionBarActivity
             @Override
             public void onClick(View view)
             {
-                translate(ON_RUS, edtEng.getText().toString());
+                ActivityMain.g_executor.translate(LanguageEnum.ON_RUS, edtEng.getText().toString());
             }
         });
     }
 
-    private void translate(final int type, String translate)
-    {
-
-        final String finalTranslate = translate;
-        if (finalTranslate.equals("") || finalTranslate.equals(null))
-        {
-            return;
-        }
-        Thread t = new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Translate.setClientId(ActivityMain.getClientId());
-                Translate.setClientSecret(ActivityMain.getClientSecret());
-                try
-                {
-                    String transtatedText = "*";
-                    if (type == ON_RUS)
-                    {
-                        transtatedText = Translate.execute(finalTranslate, Language.GERMAN, Language.RUSSIAN);
-                    }
-                    if (type == ON_ENG)
-                    {
-                        transtatedText = Translate.execute(finalTranslate, Language.RUSSIAN, Language.GERMAN);
-                    }
-                    threadMsg(transtatedText, type);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-
-            private void threadMsg(String msg, int type)
-            {
-                if (!msg.equals(null) && !msg.equals(""))
-                {
-                    Message msgObj = handler.obtainMessage();
-                    Bundle b = new Bundle();
-                    b.putString("message", msg);
-                    b.putInt("type", type);
-                    msgObj.setData(b);
-                    handler.sendMessage(msgObj);
-                }
-            }
-        });
-        t.start();
-        pb_wait.setVisibility(View.VISIBLE);
-    }
 }
 
