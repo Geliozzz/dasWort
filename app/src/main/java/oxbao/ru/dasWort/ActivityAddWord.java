@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 
 public class ActivityAddWord extends ActionBarActivity
 {
+    private final String LOG_TAG = "ADD_ACTIVITY";
+
     private Handler handler;
 
     private EditText edtEng;
@@ -56,7 +59,8 @@ public class ActivityAddWord extends ActionBarActivity
             @Override
             public void handleMessage(Message msg)
             {
-                String resp = msg.getData().getString("message");
+                Log.d(LOG_TAG, "Receive message");
+              /*  String resp = msg.getData().getString("message");
                 String type = msg.getData().getString("type");
                 if (type.equals(LanguageEnum.ON_ENG.toString()))
                 {
@@ -66,7 +70,38 @@ public class ActivityAddWord extends ActionBarActivity
                 {
                     edtRus.setText(resp);
                 }
-                pb_wait.setVisibility(View.INVISIBLE);
+               // pb_wait.setVisibility(View.INVISIBLE);*/
+
+                String typeMessage = msg.getData().getString(EnumKeyMessages.TYPE_MESSAGE.toString());
+                Log.d(LOG_TAG, typeMessage);
+                if (typeMessage.equals(EnumKeyMessages.STAFF_MESSAGE.toString()))
+                {
+                    String pbEnable = msg.getData().getString(EnumKeyMessages.PROGRESSBAR_MESSAGE.toString());
+                    if (pbEnable.equals(EnumKeyMessages.START_PROGRESSBAR.toString()))
+                    {
+                        pb_wait.setVisibility(View.VISIBLE);
+                    }
+                    if (pbEnable.equals(EnumKeyMessages.STOP_PROGRESSBAR.toString()))
+                    {
+                        pb_wait.setVisibility(View.INVISIBLE);
+                    }
+                }
+
+                if (typeMessage.equals(EnumKeyMessages.TEXT_MESSAGE.toString()))
+                {
+                    String translatedText = msg.getData().getString(EnumKeyMessages.TRANSLATED_TEXT.toString());
+                    String typeLanguage = msg.getData().getString(EnumKeyMessages.LANGUAGE_TYPE.toString());
+                    Log.d(LOG_TAG, translatedText);
+                    Log.d(LOG_TAG, typeLanguage);
+                    if (typeLanguage.equals(LanguageEnum.ON_ENG.toString()))
+                    {
+                        edtEng.setText(translatedText);
+                    }
+                    if (typeLanguage.equals(LanguageEnum.ON_RUS.toString()))
+                    {
+                        edtRus.setText(translatedText);
+                    }
+                }
             }
         };
 
@@ -100,7 +135,7 @@ public class ActivityAddWord extends ActionBarActivity
             @Override
             public void onClick(View view)
             {
-                ActivityMain.g_executor.translate(LanguageEnum.ON_ENG, edtRus.getText().toString());
+                ActivityMain.g_executor.translate(LanguageEnum.ON_ENG, edtRus.getText().toString(), handler);
             }
         });
 
@@ -109,7 +144,7 @@ public class ActivityAddWord extends ActionBarActivity
             @Override
             public void onClick(View view)
             {
-                ActivityMain.g_executor.translate(LanguageEnum.ON_RUS, edtEng.getText().toString());
+                ActivityMain.g_executor.translate(LanguageEnum.ON_RUS, edtEng.getText().toString(), handler);
             }
         });
     }

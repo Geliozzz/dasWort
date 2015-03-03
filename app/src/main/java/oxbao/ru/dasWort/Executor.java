@@ -68,5 +68,11 @@ public class Executor
         translator.translate(type, translate);
     }
 
+    public List<Word> get100NewWords()
+    {
+         return m_SqliteWordHelper.get100NewWords();
+    }
+
+
 
 }

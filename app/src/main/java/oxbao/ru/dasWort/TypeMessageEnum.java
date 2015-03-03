@@ -6,6 +6,5 @@ package oxbao.ru.dasWort;
 public enum TypeMessageEnum
 {
 
-    TEXT_MESSAGE,
-    STAFF_MESSAGE
+
 }

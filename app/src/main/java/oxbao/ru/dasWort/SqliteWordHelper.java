@@ -110,6 +110,42 @@ public class SqliteWordHelper extends SQLiteOpenHelper
         return words;
     }
 
+    public List<Word> get100NewWords()
+    {
+
+        List<Word> words = new LinkedList<Word>();
+        //1. build the query
+        String query = "SELECT * FROM " + WORDS_TABLE + " WHERE " + COL_REPEAT + "=0";
+
+        //2. get reference to writable DB
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Log.d(LOG_TAG, cursor.toString());
+        //3/ go over each row
+        Word word = null;
+        int count = 0; // Счетчик полученных слов
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                word = new Word();
+                word.setId(Integer.parseInt(cursor.getString(0)));
+                word.setEng(cursor.getString(1));
+                word.setRus(cursor.getString(2));
+                word.setRepeat(Integer.parseInt(cursor.getString(3)));
+                word.setCount(Integer.parseInt(cursor.getString(4)));
+                words.add(word);
+                count++;
+            } while (cursor.moveToNext() & count <=100 );
+        }
+        db.close();
+        cursor.close();
+
+        Log.d(LOG_TAG, words.toString());
+        return words;
+    }
+
     public void deleteWord(Word word)
     {
         //1. get reference to writable DB
@@ -133,6 +169,8 @@ public class SqliteWordHelper extends SQLiteOpenHelper
         ContentValues values = new ContentValues();
         values.put(COL_ENG, word.getEng());
         values.put(COL_RUS, word.getRus());
+        values.put(COL_REPEAT, word.getRepeat());
+        values.put(COL_COUNT, word.getCount());
         //3. updating
         int i = db.update(WORDS_TABLE, //Table
                 values, //colum/value

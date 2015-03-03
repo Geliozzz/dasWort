@@ -3,6 +3,7 @@ package oxbao.ru.dasWort;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.memetix.mst.language.Language;
 import com.memetix.mst.translate.Translate;
@@ -14,6 +15,8 @@ public class Translator
 {
     private static final String CLIENT_ID = "dasWortTranslate";
     private static final String CLIENT_SECRET = "oA7/CYhAjAqXh2NWkjEuJGPvGrTFD6oEnkq4+kqK7sY=";
+
+    private final String LOG_TAG = "TRANSLATOR";
 
     private Handler m_handler;
 
@@ -35,9 +38,10 @@ public class Translator
             @Override
             public void run()
             {
+                Log.d(LOG_TAG, "Start thread");
                 Translate.setClientId(CLIENT_ID);
                 Translate.setClientSecret(CLIENT_SECRET);
-                threadMsg("start");
+                threadMsg(EnumKeyMessages.START_PROGRESSBAR);
                 try
                 {
                     String transtatedText = "*";
@@ -49,7 +53,7 @@ public class Translator
                     {
                         transtatedText = Translate.execute(finalTranslate, Language.RUSSIAN, Language.GERMAN);
                     }
-                    threadMsg(TypeMessageEnum.TEXT_MESSAGE, transtatedText, type);
+                    threadMsg(EnumKeyMessages.TEXT_MESSAGE, transtatedText, type);
                 } catch (InterruptedException e)
                 {
                     e.printStackTrace();
@@ -57,10 +61,10 @@ public class Translator
                 {
                     e.printStackTrace();
                 }
-                //threadMsg("Stop");
+                threadMsg(EnumKeyMessages.STOP_PROGRESSBAR);
             }
 
-            private void threadMsg(TypeMessageEnum typeMessage,String translatedText, LanguageEnum type)
+            private void threadMsg(EnumKeyMessages typeMessage,String translatedText, LanguageEnum type)
             {
                 if (!translatedText.equals(null) && !translatedText.equals(""))
                 {
@@ -74,12 +78,12 @@ public class Translator
                 }
             }
 
-            private void threadMsg(String msg)
+            private void threadMsg(EnumKeyMessages enumKeyMessages)
             {
                 Message msgObj = m_handler.obtainMessage();
                 Bundle b = new Bundle();
-                b.putString(EnumKeyMessages.TYPE_MESSAGE.toString(), TypeMessageEnum.STAFF_MESSAGE.toString());
-                b.putString(EnumKeyMessages.);
+                b.putString(EnumKeyMessages.TYPE_MESSAGE.toString(), EnumKeyMessages.STAFF_MESSAGE.toString());
+                b.putString(EnumKeyMessages.PROGRESSBAR_MESSAGE.toString(), enumKeyMessages.toString());
                 msgObj.setData(b);
                 m_handler.sendMessage(msgObj);
             }
