@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class ActivityLearn extends ActionBarActivity
@@ -233,6 +234,12 @@ public class ActivityLearn extends ActionBarActivity
             txtQuesWord.setText(getResources().getString(R.string.right));
         } else
             txtQuesWord.setText(getResources().getString(R.string.wrong) + "(" + trueString + ")");
+    }
+
+    public void showToast(String message)
+    {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
 }

@@ -177,5 +177,6 @@ public class Lerner
            word.setRepeat(0);
            ActivityMain.g_executor.updateWordInDataBase(word);
        }
+        m_ownActivity.showToast("base refreshed");
     }
 }
