@@ -43,7 +43,12 @@ public class ActivityLearn extends ActionBarActivity
         setContentView(R.layout.learn_layout);
         m_lerner = new Lerner(this);
         initGUI();
-        m_lerner.start();
+        if(m_lerner.isNeedAddWord())
+        {
+            createAlertForAddDB();
+        } else {
+            m_lerner.start();
+        }
 
     }
 
@@ -75,6 +80,7 @@ public class ActivityLearn extends ActionBarActivity
                                 //Заполняем базу данных стандартным набором слов если пользователь согласен
                                 ActivityMain.g_executor.createStandardDataBase();
                                 dialog.cancel();
+                                m_lerner.start();
                             }
                         }
                 );

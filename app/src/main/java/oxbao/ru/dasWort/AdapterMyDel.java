@@ -33,7 +33,7 @@ public class AdapterMyDel extends ArrayAdapter<Word> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(lay_res, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.label);
-        textView.setText("[" + values.get(position).getCount()+ "] [" +  values.get(position).getRepeat() + "] " +  values.get(position).toString());
+        textView.setText("[" + values.get(position).getCount()+ "] " +  values.get(position).toString());
         final CheckBox checkBox = (CheckBox) rowView.findViewById(R.id.chbx_del);
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override

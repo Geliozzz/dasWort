@@ -35,13 +35,18 @@ public class Lerner
     {
         m_newWordArrayList = new ArrayList<Word>(ActivityMain.g_executor.get100NewWords());
         Log.d(LOG_TAG, "start");
-        if (ActivityMain.g_executor.getAllWordsFromDatabase().size() < 4)
-        {
-            m_ownActivity.createAlertForAddDB(); // Add if in all base little words
-        }
         takeNewWords();
         Log.d(LOG_TAG, String.valueOf(m_newWordArrayList.size()) + " - number of words"  );
         initQuestion(m_newWordArrayList);
+    }
+
+    public boolean isNeedAddWord()
+    {
+        if (ActivityMain.g_executor.getAllWordsFromDatabase().size() < 4)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void newQuestion()
