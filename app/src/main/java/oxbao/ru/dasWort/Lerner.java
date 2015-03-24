@@ -117,7 +117,8 @@ public class Lerner
             }
         }
         Random random = new Random();
-        trueAnswer = m_ownActivity.initButtonForQuest(random.nextInt(4), trueWord, fake1, fake2, fake3, needMoreWords);
+        int numWords = wordArrayList.size();
+        trueAnswer = m_ownActivity.initButtonForQuest(random.nextInt(4), trueWord, fake1, fake2, fake3, needMoreWords, numWords);
     }
 
     private Word getRandomWord(ArrayList<Word> words)
@@ -155,6 +156,23 @@ public class Lerner
     private void takeNewWords()
     {
         m_newWordArrayList = new ArrayList<Word>(ActivityMain.g_executor.get100NewWords());
+        ArrayList<Word> listToDelete = new ArrayList<Word>();
+        for (Word tmp: m_newWordArrayList)
+        {
+            if (tmp.getRus().equals("") || tmp.getEng().equals(""))
+            {
+                listToDelete.add(tmp);
+            }
+        }
+        if (listToDelete.size() > 0)
+        {
+            for (Word tmp: listToDelete)
+            {
+                m_newWordArrayList.remove(tmp);
+                Log.d(LOG_TAG, "delete bad word");
+            }
+        }
+
         if (m_newWordArrayList.size() == 0)
         {
             Log.d(LOG_TAG, "refresh db");
@@ -166,6 +184,8 @@ public class Lerner
         } else {
             m_fakeWordArrayList = new ArrayList<Word>(m_newWordArrayList);
         }
+
+        ////////
 
     }
 

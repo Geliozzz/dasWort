@@ -55,4 +55,14 @@
         android:layout_below="@+id/btn_version_3"
         android:layout_alignParentLeft="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/tvNumWords"
+        android:layout_below="@+id/btn_version_4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
 </RelativeLayout>

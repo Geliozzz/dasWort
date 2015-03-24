@@ -18,11 +18,12 @@ public class ActivityLearn extends ActionBarActivity
     private  Lerner m_lerner;
 
  //   private ArrayList<Word> wordArrayList;
-    private TextView txtQuesWord;
-    private Button btnVersion1;
-    private Button btnVersion2;
-    private Button btnVersion3;
-    private Button btnVersion4;
+    private TextView m_txtQuesWord;
+    private Button m_btnVersion1;
+    private Button m_btnVersion2;
+    private Button m_btnVersion3;
+    private Button m_btnVersion4;
+    private TextView m_tvNumOfWords;
 
     private Handler handler;
 
@@ -85,11 +86,13 @@ public class ActivityLearn extends ActionBarActivity
 
     private void initGUI()
     {
-        txtQuesWord = (TextView) findViewById(R.id.tv_quest_word);
-        btnVersion1 = (Button) findViewById(R.id.btn_version_1);
-        btnVersion2 = (Button) findViewById(R.id.btn_version_2);
-        btnVersion3 = (Button) findViewById(R.id.btn_version_3);
-        btnVersion4 = (Button) findViewById(R.id.btn_version_4);
+        m_txtQuesWord = (TextView) findViewById(R.id.tv_quest_word);
+        m_btnVersion1 = (Button) findViewById(R.id.btn_version_1);
+        m_btnVersion2 = (Button) findViewById(R.id.btn_version_2);
+        m_btnVersion3 = (Button) findViewById(R.id.btn_version_3);
+        m_btnVersion4 = (Button) findViewById(R.id.btn_version_4);
+        m_tvNumOfWords = (TextView)findViewById(R.id.tvNumWords);
+
         handler = new Handler()
         {
             @Override
@@ -99,7 +102,7 @@ public class ActivityLearn extends ActionBarActivity
             }
         };
 
-        btnVersion1.setOnClickListener(new View.OnClickListener()
+        m_btnVersion1.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -107,7 +110,7 @@ public class ActivityLearn extends ActionBarActivity
                 m_lerner.answer(BUTTON_1);
             }
         });
-        btnVersion2.setOnClickListener(new View.OnClickListener()
+        m_btnVersion2.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -115,7 +118,7 @@ public class ActivityLearn extends ActionBarActivity
                 m_lerner.answer(BUTTON_2);
             }
         });
-        btnVersion3.setOnClickListener(new View.OnClickListener()
+        m_btnVersion3.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -123,7 +126,7 @@ public class ActivityLearn extends ActionBarActivity
                 m_lerner.answer(BUTTON_3);
             }
         });
-        btnVersion4.setOnClickListener(new View.OnClickListener()
+        m_btnVersion4.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -136,71 +139,72 @@ public class ActivityLearn extends ActionBarActivity
     }
 
     public int initButtonForQuest(int variant, Word trueWord, Word fake1, Word fake2,
-                                   Word fake3, boolean needMoreWords)
+                                   Word fake3, boolean needMoreWords, int NumWords)
     {
-        txtQuesWord.setText(trueWord.getEng());
+        m_txtQuesWord.setText(trueWord.getEng());
+        m_tvNumOfWords.setText(String.valueOf(NumWords));
         int trueAnswer = 1;
         switch (variant)
         {
             case 0:
-                btnVersion1.setText(trueWord.getRus());
+                m_btnVersion1.setText(trueWord.getRus());
                 trueAnswer = 1;
                 if (!needMoreWords)
                 {
-                    btnVersion2.setText(fake1.getRus());
-                    btnVersion3.setText(fake2.getRus());
-                    btnVersion4.setText(fake3.getRus());
+                    m_btnVersion2.setText(fake1.getRus());
+                    m_btnVersion3.setText(fake2.getRus());
+                    m_btnVersion4.setText(fake3.getRus());
                 } else
                 {
-                    btnVersion2.setText(getResources().getString(R.string.add));
-                    btnVersion3.setText(getResources().getString(R.string.more));
-                    btnVersion4.setText(getResources().getString(R.string.words));
+                    m_btnVersion2.setText(getResources().getString(R.string.add));
+                    m_btnVersion3.setText(getResources().getString(R.string.more));
+                    m_btnVersion4.setText(getResources().getString(R.string.words));
                 }
 
                 break;
             case 1:
                 trueAnswer = 2;
-                btnVersion2.setText(trueWord.getRus());
+                m_btnVersion2.setText(trueWord.getRus());
                 if (!needMoreWords)
                 {
-                    btnVersion1.setText(fake1.getRus());
-                    btnVersion3.setText(fake2.getRus());
-                    btnVersion4.setText(fake3.getRus());
+                    m_btnVersion1.setText(fake1.getRus());
+                    m_btnVersion3.setText(fake2.getRus());
+                    m_btnVersion4.setText(fake3.getRus());
                 } else
                 {
-                    btnVersion1.setText(getResources().getString(R.string.add));
-                    btnVersion3.setText(getResources().getString(R.string.more));
-                    btnVersion4.setText(getResources().getString(R.string.words));
+                    m_btnVersion1.setText(getResources().getString(R.string.add));
+                    m_btnVersion3.setText(getResources().getString(R.string.more));
+                    m_btnVersion4.setText(getResources().getString(R.string.words));
                 }
                 break;
             case 2:
                 trueAnswer = 3;
-                btnVersion3.setText(trueWord.getRus());
+                m_btnVersion3.setText(trueWord.getRus());
                 if (!needMoreWords)
                 {
-                    btnVersion2.setText(fake1.getRus());
-                    btnVersion1.setText(fake2.getRus());
-                    btnVersion4.setText(fake3.getRus());
+                    m_btnVersion2.setText(fake1.getRus());
+                    m_btnVersion1.setText(fake2.getRus());
+                    m_btnVersion4.setText(fake3.getRus());
                 } else
                 {
-                    btnVersion2.setText(getResources().getString(R.string.add));
-                    btnVersion1.setText(getResources().getString(R.string.more));
-                    btnVersion4.setText(getResources().getString(R.string.words));
+                    m_btnVersion2.setText(getResources().getString(R.string.add));
+                    m_btnVersion1.setText(getResources().getString(R.string.more));
+                    m_btnVersion4.setText(getResources().getString(R.string.words));
                 }
                 break;
             case 3:
                 trueAnswer = 4;
-                btnVersion4.setText(trueWord.getRus());
+                m_btnVersion4.setText(trueWord.getRus());
                 if (!needMoreWords)
                 {
-                    btnVersion2.setText(fake1.getRus());
-                    btnVersion3.setText(fake2.getRus());
-                    btnVersion1.setText(fake3.getRus());
+                    m_btnVersion2.setText(fake1.getRus());
+                    m_btnVersion3.setText(fake2.getRus());
+                    m_btnVersion1.setText(fake3.getRus());
                 } else
                 {
-                    btnVersion2.setText(getResources().getString(R.string.add));
-                    btnVersion3.setText(getResources().getString(R.string.more));
-                    btnVersion1.setText(getResources().getString(R.string.words));
+                    m_btnVersion2.setText(getResources().getString(R.string.add));
+                    m_btnVersion3.setText(getResources().getString(R.string.more));
+                    m_btnVersion1.setText(getResources().getString(R.string.words));
                 }
                 break;
         }
@@ -231,9 +235,9 @@ public class ActivityLearn extends ActionBarActivity
     {
         if (answer)
         {
-            txtQuesWord.setText(getResources().getString(R.string.right));
+            m_txtQuesWord.setText(getResources().getString(R.string.right));
         } else
-            txtQuesWord.setText(getResources().getString(R.string.wrong) + "(" + trueString + ")");
+            m_txtQuesWord.setText(getResources().getString(R.string.wrong) + "(" + trueString + ")");
     }
 
     public void showToast(String message)
